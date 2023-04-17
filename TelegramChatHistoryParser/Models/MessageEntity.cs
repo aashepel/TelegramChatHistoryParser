@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TelegramChatHistoryParser.Models
 {
@@ -11,5 +14,9 @@ namespace TelegramChatHistoryParser.Models
         public string From { get; set; }
         public string FromId { get; set; }
         public string? Photo { get; set; }
+        public List<TextEntity> TextEntities { get; set; }
+
+        [JsonIgnore]
+        public string Text => string.Join("", TextEntities.Select(p => p.Text));
     }
 }

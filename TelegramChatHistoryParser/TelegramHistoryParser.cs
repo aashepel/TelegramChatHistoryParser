@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using TelegramChatHistoryParser.Exceptions;
@@ -8,13 +10,18 @@ namespace TelegramChatHistoryParser
 {
     public class TelegramHistoryParser
     {
+        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
+
         public TelegramHistoryParser()
         {
+            _jsonSerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() };
+            _jsonSerializerSettings.Formatting = Formatting.Indented;
         }
         
         private FileEntity ParseJson(Stream stream)
         {
-            var result = JsonSerializer.Deserialize<FileEntity>(stream);
+            StreamReader streamReader = new StreamReader(stream);
+            var result = JsonConvert.DeserializeObject<FileEntity>(streamReader.ReadToEnd(), _jsonSerializerSettings);
             if (result == null)
                 throw new InvalidJsonFileException();
             return result;
@@ -27,7 +34,7 @@ namespace TelegramChatHistoryParser
 
         public FileEntity Parse(string json)
         {
-            return ParseJson(new MemoryStream(Encoding.ASCII.GetBytes(json)));
+            return ParseJson(new MemoryStream(Encoding.UTF8.GetBytes(json)));
         }
     }
 }
