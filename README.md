@@ -5,15 +5,15 @@
 ## Usage
 
 ```c#
-TelegramHistoryParser _telegramHistoryParser = new TelegramHistoryParser();
+TelegramHistoryParser telegramHistoryParser = new TelegramHistoryParser();
 
 // using text
 string jsonText;
-FileEntity fileEntity = _telegramHistoryParser.Parse(jsonText);
+FileEntity fileEntity = telegramHistoryParser.Parse(jsonText);
 
 // using stream
 Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText))
-fileEntity = _telegramHistoryParser.Parse(stream);
+fileEntity = telegramHistoryParser.Parse(stream);
 
 // get posts (messages)
 List<MessageEntity> messages = fileEntity.Messages;
