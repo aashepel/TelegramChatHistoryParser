@@ -1,4 +1,4 @@
-# TelegramChatHistoryParser
+# C# Telegram Chat History Parser
 
 *.NET 6.0 class library and Windows Forms application for parsing chat history or channel from Telegram*
 
